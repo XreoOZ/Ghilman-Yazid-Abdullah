@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+    <button id="burger-icon" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-primary text-white p-3" id="sidebar">
+            <div class="sidebar-heading mb-4 text-center">
+                <img src="logo.png" alt="Logo" width="100">
+                <h5>Universitas Pamulang</h5>
+                <h6 class="mt-2">Welcome, Ghilman Yazid Abdullah</h6> 
+            </div>
+            
+            <div class="list-group">
+                <a href="#" onclick="showSection('dashboard')" class="list-group-item list-group-item-action bg-primary text-white">Dashboard</a>
+            </div>
+
+            <div class="list-group">
+                <p class="text-uppercase fw-bold">Menu Karyawan</p>
+                
+                <a href="#" onclick="showSection('employee')" class="list-group-item list-group-item-action bg-primary text-white">Karyawan</a>
+                <a href="#" onclick="showSection('jabatan')" class="list-group-item list-group-item-action bg-primary text-white">Jabatan</a>
+                <a href="#" onclick="showSection('divisi')" class="list-group-item l    ist-group-item-action bg-primary text-white">Divisi</a>
+                <p class="text-uppercase fw-bold mt-4">Menu Absensi</p>
+                <a href="#" onclick="showSection('absensi')" class="list-group-item list-group-item-action bg-primary text-white">Absensi</a>
+                <a href="#" onclick="showSection('izin')" class="list-group-item list-group-item-action bg-primary text-white">Izin</a>
+                <a href="#" onclick="showSection('lembur')" class="list-group-item list-group-item-action bg-primary text-white">Lembur</a>
+                <p class="text-uppercase fw-bold mt-4">Menu Penggajian</p>
+                <a href="#" onclick="showSection('slip-gaji')" class="list-group-item list-group-item-action bg-primary text-white">Slip Gaji</a>
+                <a href="#" onclick="showSection('cetak-slip-gaji')" class="list-group-item list-group-item-action bg-primary text-white">Cetak Slip Gaji</a>
+                <p class="text-uppercase fw-bold mt-4">Menu Laporan</p>
+                <a href="#" onclick="showSection('cetak-laporan')" class="list-group-item list-group-item-action bg-primary text-white">Cetak Laporan</a>
+                <p class="text-uppercase fw-bold mt-4">Menu Admin</p>
+                <a href="#" onclick="showSection('pengguna')" class="list-group-item list-group-item-action bg-primary text-white">Pengguna</a>
+                <a href="#" class="list-group-item list-group-item-action bg-danger text-white" onclick="logout()">Logout</a>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="p-4">
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                   
+                </div>
+            </nav>
+
+            <!-- Content Sections -->
+            <div id="content-container" class="container-fluid mt-4">
+                <div id="dashboard-section" class="content-section">
+                    <h2>Sistem Informasi Manajemen Karyawan</h2>
+                    <h4 class="text-muted">Admin Dashboard</h4>
+                    <div class="row mt-4 justify-content-around">
+                        <div class="col-md-3">
+                            <div class="card shadow-sm">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <i class="bi bi-person-fill card-icon text-primary" style="font-size: 3rem;"></i>
+                                    <h5 class="card-title mt-2">Data Pegawai</h5>
+                                    <p class="card-text">13</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card shadow-sm">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <i class="bi bi-calendar2-check-fill card-icon text-success" style="font-size: 3rem;"></i>
+                                    <h5 class="card-title mt-2">Absensi Hari Ini</h5>
+                                    <p class="card-text">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card shadow-sm">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <i class="bi bi-check-circle-fill card-icon text-danger" style="font-size: 3rem;"></i>
+                                    <h5 class="card-title mt-2">Izin Menunggu Konfirmasi</h5>
+                                    <p class="card-text">2</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card shadow-sm">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <i class="bi bi-check-circle-fill card-icon text-warning" style="font-size: 3rem;"></i>
+                                    <h5 class="card-title mt-2">Lembur Menunggu Informasi</h5>
+                                    <p class="card-text">1</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                        
+            
+                <!-- Content Sections -->
+                <div id="employee-section" class="content-section" style="height: 100vh; overflow: hidden; display: flex; flex-direction: column; background-color: #f8f9fa;">
+                    <div id="content" style="width: 100%; height: 100%; padding: 20px; box-sizing: border-box; display: none; overflow-y: hidden;"> <!-- Hide external scrolling -->
+                        <h2 style="margin-bottom: 20px; text-align: left;">Tambah Data Karyawan</h2>
+                        <form id="karyawanForm" style="display: flex; flex-direction: column; width: 100%; height: calc(100% - 60px); justify-content: space-between;">
+                            <div style="flex-grow: 1; overflow-y: auto;"> <!-- Enable internal scrolling -->
+                                <label for="namaLengkap">Nama Lengkap:</label>
+                                <input type="text" id="namaLengkap" name="namaLengkap" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="jenisKelamin">Jenis Kelamin:</label>
+                                <select id="jenisKelamin" name="jenisKelamin" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                                    <option value="laki-laki">Laki-laki</option>
+                                    <option value="perempuan">Perempuan</option>
+                                </select>
+                
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="noHp">No HP:</label>
+                                <input type="tel" id="noHp" name="noHp" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="alamat">Alamat:</label>
+                                <input type="text" id="alamat" name="alamat" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="jabatan">Jabatan:</label>
+                                <input type="text" id="jabatan" name="jabatan" required style="margin-bottom: 10px; width: 100%; padding: 10px;">
+                
+                                <label for="divisi">Divisi:</label>
+                                <input type="text" id="divisi" name="divisi" required style="margin-bottom: 20px; width: 100%; padding: 10px;">
+                            </div>
+                
+                            <div style="display: flex; justify-content: space-between;">
+                                <button type="submit" class="btn btn-success" style="flex: 1; margin-right: 10px;"> 
+                                    <i class="fas fa-save"></i> Simpan
+                                </button>
+                                <button type="button" class="btn btn-danger" id="batalBtn" style="flex: 1;"> 
+                                    <i class="fas fa-refresh"></i> Batal
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive" id="employeeTable" style="width: 100%; height: 100%;">
+                        <h2>Data Karyawan</h2>
+                        <button class="btn btn-primary mb-3" id="tambahKaryawanBtn">+ Tambah Karyawan</button>
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Alamat</th>
+                                    <th>Jabatan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>K001</td>
+                                    <td>Yovan Fiqri</td>
+                                    <td>yovan@gmail.com</td>
+                                    <td>Jakarta</td>
+                                    <td>Staff</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>K002</td>
+                                    <td>Rina Wulandari</td>
+                                    <td>rina@gmail.com</td>
+                                    <td>Bandung</td>
+                                    <td>Manager</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>K003</td>
+                                    <td>Ahmad Luthfi</td>
+                                    <td>ahmad@gmail.com</td>
+                                    <td>Surabaya</td>
+                                    <td>Engineer</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>K004</td>
+                                    <td>Siti Aisyah</td>
+                                    <td>siti@gmail.com</td>
+                                    <td>Medan</td>
+                                    <td>Analyst</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>K005</td>
+                                    <td>Bagus Santoso</td>
+                                    <td>bagus@gmail.com</td>
+                                    <td>Yogyakarta</td>
+                                    <td>Developer</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>K006</td>
+                                    <td>Dewi Lestari</td>
+                                    <td>dewi@gmail.com</td>
+                                    <td>Bali</td>
+                                    <td>Designer</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>K007</td>
+                                    <td>Rizal Hakim</td>
+                                    <td>rizal@gmail.com</td>
+                                    <td>Semarang</td>
+                                    <td>Consultant</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>K008</td>
+                                    <td>Lina Putri</td>
+                                    <td>lina@gmail.com</td>
+                                    <td>Makassar</td>
+                                    <td>HR</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>K009</td>
+                                    <td>Arman Hakim</td>
+                                    <td>arman@gmail.com</td>
+                                    <td>Malang</td>
+                                    <td>Technician</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>K010</td>
+                                    <td>Andini Kusuma</td>
+                                    <td>andini@gmail.com</td>
+                                    <td>Bogor</td>
+                                    <td>Supervisor</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td>K011</td>
+                                    <td>Rudi Hartono</td>
+                                    <td>rudi@gmail.com</td>
+                                    <td>Palembang</td>
+                                    <td>Finance</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                        <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                        <a href="#" class="btn btn-sm btn-success"><i class="bi bi-currency-dollar"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>                            
+                        </table>
+                    </div>
+                </div>
+                
+                <script>
+                    document.getElementById('tambahKaryawanBtn').addEventListener('click', function() {
+                        document.getElementById('employeeTable').style.display = 'none'; 
+                        document.getElementById('content').style.display = 'block'; 
+                    });
+                
+                    document.getElementById('batalBtn').addEventListener('click', function() {
+                        document.getElementById('content').style.display = 'none'; 
+                        document.getElementById('employeeTable').style.display = 'block'; 
+                    });
+                </script>
+                           
+                                            
+                <!-- Content Sections -->
+                <div id="jabatan-section" class="content-section" style="display: none;">
+                    <div class="container">
+                      <h2>Data Jabatan</h2>
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Kode Jabatan</th>
+                              <th>Jabatan</th>
+                              <th>Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>1</td>
+                              <td>JAB001</td>
+                              <td>Kepala Bagian</td>
+                              <td>
+                                <button class="btn btn-info">✏️ Edit</button>
+                                <button class="btn btn-danger">❌ Delete</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>2</td>
+                              <td>JAB002</td>
+                              <td>Kepala Sub Bagian</td>
+                              <td>
+                                <button class="btn btn-info">✏️ Edit</button>
+                                <button class="btn btn-danger">❌ Delete</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>3</td>
+                              <td>JAB003</td>
+                              <td>Staff</td>
+                              <td>
+                                <button class="btn btn-info">✏️ Edit</button>
+                                <button class="btn btn-danger">❌ Delete</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>4</td>
+                              <td>JAB004</td>
+                              <td>Warek I</td>
+                              <td>
+                                <button class="btn btn-info">✏️ Edit</button>
+                                <button class="btn btn-danger">❌ Delete</button>
+                              </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>JAB005</td>
+                                <td>Warek II</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>JAB006</td>
+                                <td>Dekan</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>JAB007</td>
+                                <td>Wakil Dekan</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>JAB008</td>
+                                <td>Ketua Jurusan</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>JAB009</td>
+                                <td>Sekretaris Jurusan</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>JAB010</td>
+                                <td>Kepala Laboratorium</td>
+                                <td>
+                                    <button class="btn btn-info">✏️ Edit</button>
+                                    <button class="btn btn-danger">❌ Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>                        
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                <!-- Content Sections -->
+                <div id="divisi-section" class="content-section" style="display: none;">
+                    <div class="container">
+                        <h2>Data Divisi</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kode Divisi</th>
+                                        <th>Nama Divisi</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>DIV001</td>
+                                        <td>Divisi Keuangan</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>DIV002</td>
+                                        <td>Divisi Pemasaran</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>DIV003</td>
+                                        <td>Divisi Sumber Daya Manusia</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>DIV004</td>
+                                        <td>Divisi Teknologi Informasi</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>DIV005</td>
+                                        <td>Divisi Produksi</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>DIV006</td>
+                                        <td>Divisi Logistik</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>DIV007</td>
+                                        <td>Divisi Penelitian dan Pengembangan</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>DIV008</td>
+                                        <td>Divisi Hukum dan Kepatuhan</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>DIV009</td>
+                                        <td>Divisi Pelayanan Pelanggan</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>DIV010</td>
+                                        <td>Divisi Administrasi</td>
+                                        <td>
+                                            <button class="btn btn-info">✏️ Edit</button>
+                                            <button class="btn btn-danger">❌ Delete</button>
+                                        </td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- Content Sections -->
+                <div id="absensi-section" class="content-section" style="display: none;">
+                    <div class="container">
+                        <h2>Data Absensi</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Karyawan</th>
+                                        <th>Tanggal</th>
+                                        <th>Lokasi Absen</th>
+                                        <th>Jam Masuk</th>
+                                        <th>Jam Keluar</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ahmad Budi</td>
+                                        <td>2024-11-01</td>
+                                        <td>Jakarta</td>
+                                        <td>08:00</td>
+                                        <td>17:00</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Siti Aisyah</td>
+                                        <td>2024-11-01</td>
+                                        <td>Bandung</td>
+                                        <td>08:15</td>
+                                        <td>17:15</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Rani Sari</td>
+                                        <td>2024-11-01</td>
+                                        <td>Surabaya</td>
+                                        <td>08:30</td>
+                                        <td>17:30</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Joko Tandea</td>
+                                        <td>2024-11-01</td>
+                                        <td>Yogyakarta</td>
+                                        <td>09:00</td>
+                                        <td>18:00</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Siti Nurhasanah</td>
+                                        <td>2024-11-02</td>
+                                        <td>Bandung</td>
+                                        <td>08:30</td>
+                                        <td>17:30</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Ahmad Saputra</td>
+                                        <td>2024-11-02</td>
+                                        <td>Surabaya</td>
+                                        <td>09:00</td>
+                                        <td>18:00</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Lia Hartati</td>
+                                        <td>2024-11-02</td>
+                                        <td>Medan</td>
+                                        <td>07:45</td>
+                                        <td>16:45</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Budi Santoso</td>
+                                        <td>2024-11-03</td>
+                                        <td>Malang</td>
+                                        <td>08:00</td>
+                                        <td>17:00</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Ayu Pratiwi</td>
+                                        <td>2024-11-03</td>
+                                        <td>Semarang</td>
+                                        <td>08:15</td>
+                                        <td>17:15</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Fahmi Kurniawan</td>
+                                        <td>2024-11-03</td>
+                                        <td>Bogor</td>
+                                        <td>09:30</td>
+                                        <td>18:30</td>
+                                        <td>
+                                            <button class="btn btn-primary">👁️ View</button>
+                                        </td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                                
+                <!-- Content Sections -->
+                <div id="keterangan-section" class="content-section" style="display: none;">
+                    <div class="container">
+                        <h2>Data Keterangan</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam Keterangan</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ahmad Budi</td>
+                                        <td>2024-11-01</td>
+                                        <td>08:00</td>
+                                        <td>Menunggu Konfirmasi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Siti Aisyah</td>
+                                        <td>2024-11-01</td>
+                                        <td>08:15</td>
+                                        <td>Menunggu Konfirmasi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Rani Sari</td>
+                                        <td>2024-11-01</td>
+                                        <td>08:30</td>
+                                        <td>Menunggu Konfirmasi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Joko Widodo</td>
+                                        <td>2024-11-01</td>
+                                        <td>09:00</td>
+                                        <td>Menunggu Konfirmasi</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->   
+                <div id="izin-section" class="content-section" style="display: none;">
+                    <div class="container">
+                        <h2>Data Izin</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Izin</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>Keterangan</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ahmad Budi</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-01</td>
+                                        <td>08:00</td>
+                                        <td>Penyakit Flu</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Siti Hajar</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-02</td>
+                                        <td>09:30</td>
+                                        <td>Sakit Kepala</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Rizky Pratama</td>
+                                        <td>Izin</td>
+                                        <td>2024-11-02</td>
+                                        <td>10:15</td>
+                                        <td>Keperluan Keluarga</td>
+                                        <td>
+                                            Disetujui <span class="approved-icon">✅</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Mira Anjani</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-01</td>
+                                        <td>07:45</td>
+                                        <td>Demam</td>
+                                        <td>
+                                            Dikonfirmasi <span class="confirmed-icon">✔️</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Hendri Susilo</td>
+                                        <td>Izin</td>
+                                        <td>2024-11-02</td>
+                                        <td>13:00</td>
+                                        <td>Acara Pernikahan</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Aulia Putri</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-01</td>
+                                        <td>11:20</td>
+                                        <td>Sakit Perut</td>
+                                        <td>
+                                            Disetujui <span class="approved-icon">✅</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Bagas Arya</td>
+                                        <td>Izin</td>
+                                        <td>2024-11-03</td>
+                                        <td>14:00</td>
+                                        <td>Perjalanan Dinas</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Nina Saraswati</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-02</td>
+                                        <td>08:30</td>
+                                        <td>Sakit Gigi</td>
+                                        <td>
+                                            Dikonfirmasi <span class="confirmed-icon">✔️</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Farhan Maulana</td>
+                                        <td>Izin</td>
+                                        <td>2024-11-01</td>
+                                        <td>12:00</td>
+                                        <td>Urusan Pribadi</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Lina Amelia</td>
+                                        <td>Sakit</td>
+                                        <td>2024-11-03</td>
+                                        <td>07:15</td>
+                                        <td>Radang Tenggorokan</td>
+                                        <td>
+                                            Disetujui <span class="approved-icon">✅</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Sections -->
+                <div id="lembur-section" class="content-section" style="display: none;">
+                    <div class="container">
+                        <h2>Data Lembur</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam Lembur (Mulai | Berakhir)</th>
+                                        <th>Keperluan Lembur</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ahmad Budi</td>
+                                        <td>2024-11-01</td>
+                                        <td>18:00 | 21:00</td>
+                                        <td>Menyelesaikan laporan proyek</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Siti Aisyah</td>
+                                        <td>2024-11-02</td>
+                                        <td>19:00 | 23:00</td>
+                                        <td>Presentasi klien mendesak</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Rani Sari</td>
+                                        <td>2024-11-03</td>
+                                        <td>17:30 | 20:30</td>
+                                        <td>Revisi anggaran departemen</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Joko Widodo</td>
+                                        <td>2024-11-04</td>
+                                        <td>20:00 | 23:59</td>
+                                        <td>Pemeliharaan server</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Hendra Saputra</td>
+                                        <td>2024-11-05</td>
+                                        <td>22:00 | 02:00</td>
+                                        <td>Backup Data</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Maria Ningsih</td>
+                                        <td>2024-11-06</td>
+                                        <td>21:00 | 01:00</td>
+                                        <td>Pemeliharaan Jaringan</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Arif Budiman</td>
+                                        <td>2024-11-06</td>
+                                        <td>19:30 | 22:30</td>
+                                        <td>Update Sistem</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Susan Kartika</td>
+                                        <td>2024-11-07</td>
+                                        <td>20:00 | 23:00</td>
+                                        <td>Testing Keamanan</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Rudi Hartono</td>
+                                        <td>2024-11-08</td>
+                                        <td>18:00 | 21:00</td>
+                                        <td>Perbaikan Layanan</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Lina Permata</td>
+                                        <td>2024-11-09</td>
+                                        <td>21:30 | 00:30</td>
+                                        <td>Pemeliharaan Database</td>
+                                        <td>
+                                            Menunggu Konfirmasi <span class="wait-icon">⏳</span>
+                                        </td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->
+                <div id="slip-gaji-section" class="content-section" style="display: none;">
+                    <h2>Slip Gaji</h2>
+                </div>
+
+                <!-- Content Sections -->
+                <div id="cetak-slip-gaji-section" class="content-section" style="display: none;">
+                    <h2>Cetak Slip Gaji</h2>
+                </div>
+
+                <!-- Content Sections -->
+                <div id="cetak-laporan-section" class="content-section" style="display: none;">
+                    <h2>Cetak Laporan</h2>
+                </div>
+
+                <!-- Content Sections -->
+                <div id="pengguna-section" class="content-section" style="display: none;">
+                    <h2>Pengguna</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
